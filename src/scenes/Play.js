@@ -40,13 +40,29 @@ class Play extends Phaser.Scene
         this.startPlat = this.physics.add.sprite(0,game.config.height/3*2+8,'platform').setOrigin(0,0);
         this.startPlat.setImmovable(true);
 
+        //add platform
+        this.platform = new Platform(this, game.config.width, 400, 'platform').setOrigin(0,0);
+
         //collider
         this.physics.add.collider(this.player, this.startPlat);
+        this.physics.add.collider(this.player, this.platform);
+
+        //define keys
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
+    
 
     update()
     {
+        if(this.player.body.touching.down)
+        {
+            if(Phaser.Input.Keyboard.JustDown(keySPACE))
+            {
+                this.player.setVelocityY(gameSettings.jumpForce*-1);
+            }
+        }
         this.bg.tilePositionX += 4;
-        this.startPlat.x -= 1;
+        this.startPlat.x -= 2;
+        this.platform.update();
     }
 }

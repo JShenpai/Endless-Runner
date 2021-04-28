@@ -16,5 +16,8 @@ let config =
 
 let game = new Phaser.Game(config);
 
+//reserve keyboard vars
+let keySPACE;
+
 //set UI sizes
 let borderUISize = game.config.height/50;
