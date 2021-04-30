@@ -18,8 +18,9 @@ class Play extends Phaser.Scene
     preload()
     {
         this.load.image('bg','./assets/ROUGHbg.png');
-        this.load.image('player','./assets/placeholderPlayer.png');
         this.load.image('platform','./assets/placeholderPlatform.png');
+
+        this.load.spritesheet('player1','./assets/pajama_maniac.png',{frameWidth: 20, frameHeight: 20, startFrame: 0, endFrame: 7});
     }
 
     create()
@@ -33,7 +34,7 @@ class Play extends Phaser.Scene
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0x000).setOrigin(0, 0);
 
         //add player
-        this.player = this.physics.add.sprite(game.config.width/3, game.config.height/3*2,'player').setOrigin(0,0);
+        this.player = this.physics.add.sprite(game.config.width/3, game.config.height/3*2-8,'player1').setOrigin(0,0);
         this.player.setGravityY(gameSettings.playerGravity);
 
         //add starting platform
@@ -49,6 +50,14 @@ class Play extends Phaser.Scene
 
         //define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        this.anims.create(
+            {
+                key: 'walk',
+                frames: this.anims.generateFrameNumbers('player1', {start: 0, end: 7, first: 0}),
+                frameRate: 30
+            }
+        );
     }
     
 
@@ -56,6 +65,7 @@ class Play extends Phaser.Scene
     {
         if(this.player.body.touching.down)
         {
+            this.player.anims.play('walk', true);
             if(Phaser.Input.Keyboard.JustDown(keySPACE))
             {
                 this.player.setVelocityY(gameSettings.jumpForce*-1);
