@@ -18,23 +18,18 @@ class Play extends Phaser.Scene
     preload()
     {
         this.load.image('bg','./assets/ROUGHbg.png');
-        this.load.image('platform','./assets/placeholderPlatform.png');
+        this.load.image('platform','./assets/pancake_platform.png');
 
-        this.load.spritesheet('player1','./assets/pajama_maniac.png',{frameWidth: 20, frameHeight: 20, startFrame: 0, endFrame: 7});
+        this.load.spritesheet('player1','./assets/pajama_maniac.png',{frameWidth: 40, frameHeight: 40, startFrame: 0, endFrame: 7});
     }
 
     create()
     {
         //place tile sprite
         this.bg = this.add.tileSprite(0,0,640,480,'bg').setOrigin(0,0);
-        // white borders
-        this.add.rectangle(0, 0, game.config.width, borderUISize, 0x000).setOrigin(0, 0);
-        this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0x000).setOrigin(0, 0);
-        this.add.rectangle(0, 0, borderUISize, game.config.height, 0x000).setOrigin(0, 0);
-        this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0x000).setOrigin(0, 0);
 
         //add player
-        this.player = this.physics.add.sprite(game.config.width/3, game.config.height/3*2-8,'player1').setOrigin(0,0);
+        this.player = this.physics.add.sprite(game.config.width/3, game.config.height/3*2-32,'player1').setOrigin(0,0);
         this.player.setGravityY(gameSettings.playerGravity);
 
         //add starting platform
@@ -43,6 +38,12 @@ class Play extends Phaser.Scene
 
         //add platform
         this.platform = new Platform(this, game.config.width, 400, 'platform').setOrigin(0,0);
+
+        // white borders
+        this.add.rectangle(0, 0, game.config.width, borderUISize, 0x000).setOrigin(0, 0);
+        this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0x000).setOrigin(0, 0);
+        this.add.rectangle(0, 0, borderUISize, game.config.height, 0x000).setOrigin(0, 0);
+        this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0x000).setOrigin(0, 0);
 
         //collider
         this.physics.add.collider(this.player, this.startPlat);
@@ -55,7 +56,7 @@ class Play extends Phaser.Scene
             {
                 key: 'walk',
                 frames: this.anims.generateFrameNumbers('player1', {start: 0, end: 7, first: 0}),
-                frameRate: 30
+                frameRate: 20
             }
         );
     }
