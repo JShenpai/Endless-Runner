@@ -18,6 +18,7 @@ class Play extends Phaser.Scene
     preload()
     {
         this.load.image('bg','./assets/ROUGHbg.png');
+        this.load.image('avalanche','./assets/avalanche.png');
         this.load.image('platform','./assets/pancake_platform.png');
 
         this.load.spritesheet('player1','./assets/pajama_maniac.png',{frameWidth: 40, frameHeight: 40, startFrame: 0, endFrame: 7});
@@ -38,6 +39,9 @@ class Play extends Phaser.Scene
 
         //add platform
         this.platform = new Platform(this, game.config.width, 400, 'platform').setOrigin(0,0);
+
+        //add avalanche
+        this.avalanche = this.add.tileSprite(-520,0,640,480,'avalanche').setOrigin(0,0);
 
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0x000).setOrigin(0, 0);
