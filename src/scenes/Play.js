@@ -79,6 +79,11 @@ class Play extends Phaser.Scene
                 this.player.setVelocityY(gameSettings.jumpForce*-1);
             }
         }
+
+        if(this.player.y >= 580)
+        {
+            this.scene.start('endScene');
+        }
         this.bg.tilePositionX += 4;
         this.startPlat.x -= 2;
         this.platform1.update();
