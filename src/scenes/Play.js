@@ -43,7 +43,10 @@ class Play extends Phaser.Scene
         this.platform2 = new Platform(this, game.config.width + 300, Phaser.Math.Between(300,350), Phaser.Utils.Array.GetRandom(arr)).setOrigin(0,0);
         this.platform3 = new Platform(this, game.config.width + 600, Phaser.Math.Between(300,350), Phaser.Utils.Array.GetRandom(arr)).setOrigin(0,0);
         
-        
+        //cone booleans
+        this.isCone1 = false;
+        this.isCone2 = false;
+        this.isCone3 = false;
 
         //add avalanche
         this.avalanche = this.add.tileSprite(-580,0,640,480,'avalanche').setOrigin(0,0);
@@ -51,8 +54,6 @@ class Play extends Phaser.Scene
         //add player
         this.player = this.physics.add.sprite(game.config.width/3, game.config.height/3*2-32,'player1').setOrigin(0,0);
         this.player.setGravityY(gameSettings.playerGravity);
-
-        
 
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0x000).setOrigin(0, 0);
@@ -95,9 +96,49 @@ class Play extends Phaser.Scene
             this.scene.start('endScene');
         }
         this.bg.tilePositionX += 4;
-        this.startPlat.x -= 2;
+        this.startPlat.x -= 4;
+        if (this.isCone1) {
+            this.cone1.x -= 4;
+        }
+        if (this.isCone2) {
+            this.cone2.x -= 4;
+        }
+        if (this.isCone3) {
+            this.cone3.x -= 4;
+        }
         this.platform1.update();
         this.platform2.update();
         this.platform3.update();
+
+        //chance for spike to spawn
+        if(this.platform1.x == game.config.width)
+        {
+            var chance = Phaser.Math.Between(0,4);
+            if(chance == 0)
+            {
+                this.cone1 = this.physics.add.sprite(this.platform1.x + Phaser.Math.Between(0, this.platform1.width - 40), this.platform1.y - 40, 'spike').setOrigin(0,0);
+                this.isCone1 = true;
+            }
+        }
+
+        if(this.platform2.x == game.config.width)
+        {
+            var chance = Phaser.Math.Between(0,4);
+            if(chance == 0)
+            {
+                this.cone2 = this.physics.add.sprite(this.platform2.x + Phaser.Math.Between(0, this.platform2.width - 40), this.platform2.y - 40, 'spike').setOrigin(0,0);
+                this.isCone2 = true;
+            }
+        }
+
+        if(this.platform3.x == game.config.width)
+        {
+            var chance = Phaser.Math.Between(0,4);
+            if(chance == 0)
+            {
+                this.cone3 = this.physics.add.sprite(this.platform3.x + Phaser.Math.Between(0, this.platform3.width - 40), this.platform3.y - 40, 'spike').setOrigin(0,0);
+                this.isCone3 = true;
+            }
+        }
     }
 }

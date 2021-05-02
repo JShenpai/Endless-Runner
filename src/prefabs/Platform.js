@@ -7,7 +7,7 @@ class Platform extends Phaser.Physics.Arcade.Sprite
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setImmovable();
-        this.moveSpeed = 2;
+        this.moveSpeed = 4;
         this.spike = false;
     }
 
@@ -21,31 +21,11 @@ class Platform extends Phaser.Physics.Arcade.Sprite
             this.x = game.config.width;
             this.y = Phaser.Math.Between(300,350);
         }
-
-        if(this.spike == true)
-        {
-            this.placeSpike();
-
-        }
-    }
-
-    placeSpike()
-    {
-        this.cone = this.physics.add.Sprite(this.x, this.y,'spike').setOrigin(0,0);
     }
 
     //position reset
     reset()
     {
-        var chance = Phaser.Math.Between(0,4);
-        if(chance == 0)
-        {
-            this.spike = true;
-        }
-        else
-        {
-            this.spike = false;
-        }
         this.x = game.config.width;
     }
 }
