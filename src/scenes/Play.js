@@ -36,10 +36,13 @@ class Play extends Phaser.Scene
         this.startPlat = this.physics.add.sprite(0,game.config.height/3*2+8,'platformstart').setOrigin(0,0);
         this.startPlat.setImmovable(true);
 
-        //add platform
-        this.platform1 = new Platform(this, game.config.width + 100, Phaser.Math.Between(300,400), 'platform1').setOrigin(0,0);
-        this.platform2 = new Platform(this, game.config.width + 300, Phaser.Math.Between(300,400), 'platform2').setOrigin(0,0);
-        this.platform3 = new Platform(this, game.config.width + 600, Phaser.Math.Between(300,400), 'platform3').setOrigin(0,0);
+        let arr = ['platform1', 'platform2', 'platform3'];
+        
+        this.platform1 = new Platform(this, game.config.width + 100, Phaser.Math.Between(300,400), Phaser.Utils.Array.GetRandom(arr)).setOrigin(0,0);
+        this.platform2 = new Platform(this, game.config.width + 300, Phaser.Math.Between(300,400), Phaser.Utils.Array.GetRandom(arr)).setOrigin(0,0);
+        this.platform3 = new Platform(this, game.config.width + 600, Phaser.Math.Between(300,400), Phaser.Utils.Array.GetRandom(arr)).setOrigin(0,0);
+        
+        
 
         //add avalanche
         this.avalanche = this.add.tileSprite(-580,0,640,480,'avalanche').setOrigin(0,0);
