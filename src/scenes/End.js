@@ -19,6 +19,7 @@ class End extends Phaser.Scene
     {
         if(Phaser.Input.Keyboard.JustDown(keySPACE))
         {
+            this.sound.play('sfx_select');
             this.scene.start('playScene');
         }
     }

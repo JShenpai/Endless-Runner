@@ -3,8 +3,8 @@ let gameSettings =
     platformStartSpeed: 350,
     spawnRange: [100, 350],
     platformSizeRange: [50, 250],
-    playerGravity: 1200,
-    jumpForce: 400,
+    playerGravity: 1500,
+    jumpForce: 500,
     playerStartPosition: 200,
 }
 
@@ -20,6 +20,7 @@ class Play extends Phaser.Scene
         this.load.image('bg','./assets/ROUGHbg.png');
         this.load.image('avalanche','./assets/avalanche.png');
         this.load.image('platformstart','./assets/pancake_platform.png');
+        this.load.image('spike','./assets/cone_spike.png');
         this.load.image('platform1','./assets/platform_1.png');
         this.load.image('platform2','./assets/platform_2.png');
         this.load.image('platform3','./assets/platform_3.png');
@@ -38,9 +39,9 @@ class Play extends Phaser.Scene
 
         let arr = ['platform1', 'platform2', 'platform3'];
         
-        this.platform1 = new Platform(this, game.config.width + 100, Phaser.Math.Between(300,400), Phaser.Utils.Array.GetRandom(arr)).setOrigin(0,0);
-        this.platform2 = new Platform(this, game.config.width + 300, Phaser.Math.Between(300,400), Phaser.Utils.Array.GetRandom(arr)).setOrigin(0,0);
-        this.platform3 = new Platform(this, game.config.width + 600, Phaser.Math.Between(300,400), Phaser.Utils.Array.GetRandom(arr)).setOrigin(0,0);
+        this.platform1 = new Platform(this, game.config.width + 100, Phaser.Math.Between(300,350), Phaser.Utils.Array.GetRandom(arr)).setOrigin(0,0);
+        this.platform2 = new Platform(this, game.config.width + 300, Phaser.Math.Between(300,350), Phaser.Utils.Array.GetRandom(arr)).setOrigin(0,0);
+        this.platform3 = new Platform(this, game.config.width + 600, Phaser.Math.Between(300,350), Phaser.Utils.Array.GetRandom(arr)).setOrigin(0,0);
         
         
 
@@ -84,6 +85,7 @@ class Play extends Phaser.Scene
             this.player.anims.play('walk', true);
             if(Phaser.Input.Keyboard.JustDown(keySPACE))
             {
+                this.sound.play('sfx_jump');
                 this.player.setVelocityY(gameSettings.jumpForce*-1);
             }
         }
