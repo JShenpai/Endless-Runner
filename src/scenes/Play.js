@@ -17,7 +17,10 @@ class Play extends Phaser.Scene
 
     preload()
     {
-        this.load.image('bg','./assets/ROUGHbg.png');
+        this.load.image('bg1','./assets/bg_1.png');
+        this.load.image('bg2','./assets/bg_2.png');
+        this.load.image('bg3','./assets/bg_3.png');
+        this.load.image('bg4','./assets/bg_4.png');
         this.load.image('avalanche','./assets/avalanche.png');
         this.load.image('platformstart','./assets/pancake_platform.png');
         this.load.image('spike','./assets/cone_spike.png');
@@ -31,8 +34,11 @@ class Play extends Phaser.Scene
 
     create()
     {
-        //place tile sprite
-        this.bg = this.add.tileSprite(0,0,640,480,'bg').setOrigin(0,0);
+        //place tile sprites
+        this.bg1 = this.add.tileSprite(0,0,640,480,'bg1').setOrigin(0,0);
+        this.bg2 = this.add.tileSprite(0,0,640,480,'bg2').setOrigin(0,0);
+        this.bg3 = this.add.tileSprite(0,0,640,480,'bg3').setOrigin(0,0);
+        this.bg4 = this.add.tileSprite(0,0,640,480,'bg4').setOrigin(0,0);
 
         //add starting platform
         this.startPlat = this.physics.add.sprite(0,game.config.height/3*2+8,'platformstart').setOrigin(0,0);
@@ -55,7 +61,7 @@ class Play extends Phaser.Scene
         this.isSam3 = false;
 
         //add avalanche
-        this.avalanche = this.add.tileSprite(-580,0,640,480,'avalanche').setOrigin(0,0);
+        this.avalanche = this.add.tileSprite(-560,0,640,480,'avalanche').setOrigin(0,0);
 
         //add player
         this.player = this.physics.add.sprite(game.config.width/3, game.config.height/3*2-32,'player1').setOrigin(0,0);
@@ -101,7 +107,9 @@ class Play extends Phaser.Scene
         {
             this.scene.start('endScene');
         }
-        this.bg.tilePositionX += 4;
+        this.bg2.tilePositionX += 2;
+        this.bg3.tilePositionX += 4;
+        this.bg4.tilePositionX += 6;
         this.startPlat.x -= 4;
         if (this.isCone1) {
             this.cone1.x -= 4;
