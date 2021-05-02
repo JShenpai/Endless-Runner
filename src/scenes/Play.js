@@ -21,6 +21,7 @@ class Play extends Phaser.Scene
         this.load.image('avalanche','./assets/avalanche.png');
         this.load.image('platformstart','./assets/pancake_platform.png');
         this.load.image('spike','./assets/cone_spike.png');
+        this.load.image('sandwich','./assets/sam.png');
         this.load.image('platform1','./assets/platform_1.png');
         this.load.image('platform2','./assets/platform_2.png');
         this.load.image('platform3','./assets/platform_3.png');
@@ -47,6 +48,11 @@ class Play extends Phaser.Scene
         this.isCone1 = false;
         this.isCone2 = false;
         this.isCone3 = false;
+
+        //sandwich booleans
+        this.isSam1 = false;
+        this.isSam2 = false;
+        this.isSam3 = false;
 
         //add avalanche
         this.avalanche = this.add.tileSprite(-580,0,640,480,'avalanche').setOrigin(0,0);
@@ -106,9 +112,47 @@ class Play extends Phaser.Scene
         if (this.isCone3) {
             this.cone3.x -= 4;
         }
+        if (this.isSam1) {
+            this.sam1.x -= 4;
+        }
+        if (this.isSam2) {
+            this.sam2.x -= 4;
+        }
+        if (this.isSam3) {
+            this.sam3.x -= 4;
+        }
         this.platform1.update();
         this.platform2.update();
         this.platform3.update();
+
+        //chance for sandwich to spawn
+        if(this.platform1.x == game.config.width)
+        {
+            var chance = Phaser.Math.Between(0,2);
+            if(chance == 0)
+            {
+                this.sam1 = this.physics.add.sprite(this.platform1.x + Phaser.Math.Between(0, this.platform1.width - 40), this.platform1.y - 40, 'sandwich').setOrigin(0,0);
+                this.isSam1 = true;
+            }
+        }
+        if(this.platform2.x == game.config.width)
+        {
+            var chance = Phaser.Math.Between(0,2);
+            if(chance == 0)
+            {
+                this.sam2 = this.physics.add.sprite(this.platform2.x + Phaser.Math.Between(0, this.platform2.width - 40), this.platform2.y - 40, 'sandwich').setOrigin(0,0);
+                this.isSam2 = true;
+            }
+        }
+        if(this.platform3.x == game.config.width)
+        {
+            var chance = Phaser.Math.Between(0,2);
+            if(chance == 0)
+            {
+                this.sam3 = this.physics.add.sprite(this.platform3.x + Phaser.Math.Between(0, this.platform3.width - 40), this.platform3.y - 40, 'sandwich').setOrigin(0,0);
+                this.isSam3 = true;
+            }
+        }
 
         //chance for spike to spawn
         if(this.platform1.x == game.config.width)
@@ -120,7 +164,6 @@ class Play extends Phaser.Scene
                 this.isCone1 = true;
             }
         }
-
         if(this.platform2.x == game.config.width)
         {
             var chance = Phaser.Math.Between(0,4);
@@ -130,7 +173,6 @@ class Play extends Phaser.Scene
                 this.isCone2 = true;
             }
         }
-
         if(this.platform3.x == game.config.width)
         {
             var chance = Phaser.Math.Between(0,4);
