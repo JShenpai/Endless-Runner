@@ -79,6 +79,7 @@ class Play extends Phaser.Scene
         this.physics.add.collider(this.player, this.platform2);
         this.physics.add.collider(this.player, this.platform3);
 
+
         //define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.anims.create(
@@ -89,7 +90,7 @@ class Play extends Phaser.Scene
             }
         );
     }
-    
+
 
     update()
     {
