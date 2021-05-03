@@ -73,11 +73,17 @@ class Play extends Phaser.Scene
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0x000).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0x000).setOrigin(0, 0);
 
+        //sams group
+        this.sams = this.physics.add.group();
+
         //collider
         this.physics.add.collider(this.player, this.startPlat);
         this.physics.add.collider(this.player, this.platform1);
         this.physics.add.collider(this.player, this.platform2);
         this.physics.add.collider(this.player, this.platform3);
+
+        //
+        this.physics.add.overlap(this.player, this.sams, this.collectSam);
 
 
         //define keys
@@ -141,6 +147,7 @@ class Play extends Phaser.Scene
             if(chance == 0)
             {
                 this.sam1 = this.physics.add.sprite(this.platform1.x + Phaser.Math.Between(0, this.platform1.width - 40), this.platform1.y - 40, 'sandwich').setOrigin(0,0);
+                this.sams.add(this.sam1);
                 this.isSam1 = true;
             }
         }
@@ -150,6 +157,7 @@ class Play extends Phaser.Scene
             if(chance == 0)
             {
                 this.sam2 = this.physics.add.sprite(this.platform2.x + Phaser.Math.Between(0, this.platform2.width - 40), this.platform2.y - 40, 'sandwich').setOrigin(0,0);
+                this.sams.add(this.sam2);
                 this.isSam2 = true;
             }
         }
@@ -159,6 +167,7 @@ class Play extends Phaser.Scene
             if(chance == 0)
             {
                 this.sam3 = this.physics.add.sprite(this.platform3.x + Phaser.Math.Between(0, this.platform3.width - 40), this.platform3.y - 40, 'sandwich').setOrigin(0,0);
+                this.sams.add(this.sam3);
                 this.isSam3 = true;
             }
         }
@@ -191,5 +200,9 @@ class Play extends Phaser.Scene
                 this.isCone3 = true;
             }
         }
+    }
+    collectSam(player, sam)
+    {
+        sam.disableBody(true, true);
     }
 }
