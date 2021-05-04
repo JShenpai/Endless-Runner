@@ -77,8 +77,9 @@ class Play extends Phaser.Scene
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0x000).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0x000).setOrigin(0, 0);
 
-        //sams group
+        //physics groups
         this.sams = this.physics.add.group();
+        this.cones = this.physics.add.group();
 
         //collider
         this.physics.add.collider(this.player, this.startPlat);
@@ -88,6 +89,8 @@ class Play extends Phaser.Scene
 
         //overlap
         this.physics.add.overlap(this.player, this.sams, this.collectSam, null, this);
+
+        this.physics.add.overlap(this.player, this.cones, this.hurtPlayer, null, this);
 
 
         //define keys
@@ -105,10 +108,12 @@ class Play extends Phaser.Scene
         this.playerJumps = 0;
 
         //keep track of player dashes
-        this.playerDashes = 0;
+        this.playerDashes = 2;
 
         //keep track of dash status
         this.isDashing = false;
+
+        this.playerHealth = 3;
     }
 
 
@@ -144,7 +149,7 @@ class Play extends Phaser.Scene
             {
                 this.player.setVelocityX(-50)
             },null, this);
-            this.positionRest = this.time.delayedCall(1800, () =>
+            this.positionRest = this.time.delayedCall(1775, () =>
             {
                 this.player.setVelocityX(0);
                 this.isDashing = false;
@@ -153,7 +158,7 @@ class Play extends Phaser.Scene
             --this.playerDashes;
         }
 
-        if(this.player.y >= 580)
+        if(this.player.y >= 580 || this.playerHealth == 0)
         {
             this.scene.start('endScene');
         }
@@ -222,6 +227,7 @@ class Play extends Phaser.Scene
             if(chance == 0)
             {
                 this.cone1 = this.physics.add.sprite(this.platform1.x + Phaser.Math.Between(0, this.platform1.width - 20), this.platform1.y - 20, 'spike').setOrigin(0,0);
+                this.cones.add(this.cone1);
                 this.isCone1 = true;
             }
         }
@@ -231,6 +237,7 @@ class Play extends Phaser.Scene
             if(chance == 0)
             {
                 this.cone2 = this.physics.add.sprite(this.platform2.x + Phaser.Math.Between(0, this.platform2.width - 20), this.platform2.y - 20, 'spike').setOrigin(0,0);
+                this.cones.add(this.cone2);
                 this.isCone2 = true;
             }
         }
@@ -240,6 +247,7 @@ class Play extends Phaser.Scene
             if(chance == 0)
             {
                 this.cone3 = this.physics.add.sprite(this.platform3.x + Phaser.Math.Between(0, this.platform3.width - 20), this.platform3.y - 20, 'spike').setOrigin(0,0);
+                this.cones.add(this.cone3);
                 this.isCone3 = true;
             }
         }
@@ -249,7 +257,13 @@ class Play extends Phaser.Scene
         sam.disableBody(true, true);
         this.sound.play('sfx_eat');
         this.playerDashes++;
-        console.log(this.playerDashes); 
-        Platform.moveSpeed++;
+    }
+
+    hurtPlayer(player, cone)
+    {
+        this.sound.play('sfx_hit');
+        this.playerHealth--;
+        cone.disableBody(true, true);
+        console.log(this.playerHealth);
     }
 }
