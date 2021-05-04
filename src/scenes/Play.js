@@ -116,6 +116,8 @@ class Play extends Phaser.Scene
         this.playerHealth = 3;
 
         this.score = 0;
+
+        this.timer = this.time.addEvent({ delay: 1000, callback: this.increaseScore, callbackScope: this, loop: true });
     }
 
 
@@ -254,7 +256,9 @@ class Play extends Phaser.Scene
                 this.isCone3 = true;
             }
         }
+        /*
         this.score = this.time.now/1000;
+        */
     }
     collectSam(player, sam)
     {
@@ -269,5 +273,10 @@ class Play extends Phaser.Scene
         this.playerHealth--;
         cone.disableBody(true, true);
         console.log(this.playerHealth);
+    }
+
+    increaseScore()
+    {
+        this.score++; 
     }
 }
