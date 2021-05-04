@@ -92,6 +92,7 @@ class Play extends Phaser.Scene
 
         //define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.anims.create(
             {
                 key: 'walk',
@@ -100,7 +101,14 @@ class Play extends Phaser.Scene
             }
         );
 
+        //keep track of player jump count
         this.playerJumps = 0;
+
+        //keep track of player dashes
+        this.playerDashes = 0;
+
+        //keep track of dash status
+        this.isDashing = false;
     }
 
 
@@ -125,6 +133,24 @@ class Play extends Phaser.Scene
                 this.player.setVelocityY(gameSettings.jumpForce*-1);
                 ++this.playerJumps;
             }
+        }
+
+        if(Phaser.Input.Keyboard.JustDown(keyD) && this.playerDashes > 0 && this.isDashing == false)
+        {
+            this.isDashing = true;
+            this.sound.play('sfx_dash');
+            this.player.setVelocityX(1000);
+            this.dashDuration = this.time.delayedCall(100, () =>
+            {
+                this.player.setVelocityX(-50)
+            },null, this);
+            this.positionRest = this.time.delayedCall(1800, () =>
+            {
+                this.player.setVelocityX(0);
+                this.isDashing = false;
+                console.log(this.player.x);
+            },null, this);
+            --this.playerDashes;
         }
 
         if(this.player.y >= 580)
@@ -222,5 +248,8 @@ class Play extends Phaser.Scene
     {
         sam.disableBody(true, true);
         this.sound.play('sfx_eat');
+        this.playerDashes++;
+        console.log(this.playerDashes); 
+        Platform.moveSpeed++;
     }
 }
