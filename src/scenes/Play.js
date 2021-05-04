@@ -114,6 +114,8 @@ class Play extends Phaser.Scene
         this.isDashing = false;
 
         this.playerHealth = 3;
+
+        this.score = 0;
     }
 
 
@@ -160,7 +162,8 @@ class Play extends Phaser.Scene
 
         if(this.player.y >= 580 || this.playerHealth == 0)
         {
-            this.scene.start('endScene');
+            console.log(this.score);
+            this.scene.start('endScene', {score: this.score});
         }
         this.bg2.tilePositionX += 2;
         this.bg3.tilePositionX += 4;
@@ -251,6 +254,7 @@ class Play extends Phaser.Scene
                 this.isCone3 = true;
             }
         }
+        this.score = this.time.now/1000;
     }
     collectSam(player, sam)
     {
