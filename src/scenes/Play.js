@@ -6,6 +6,7 @@ let gameSettings =
     playerGravity: 1500,
     jumpForce: 500,
     playerStartPosition: 200,
+    jumps: 2
 }
 
 
@@ -98,6 +99,8 @@ class Play extends Phaser.Scene
                 frameRate: 20
             }
         );
+
+        this.playerJumps = 0;
     }
 
 
@@ -105,11 +108,22 @@ class Play extends Phaser.Scene
     {
         if(this.player.body.touching.down)
         {
+            this.playerJumps = 0;
             this.player.anims.play('walk', true);
             if(Phaser.Input.Keyboard.JustDown(keySPACE))
             {
                 this.sound.play('sfx_jump');
                 this.player.setVelocityY(gameSettings.jumpForce*-1);
+                ++this.playerJumps;
+            }
+        }
+        if(Phaser.Input.Keyboard.JustDown(keySPACE)&&!this.player.body.touching.down)
+        {
+            if(this.playerJumps > 0 && this.playerJumps < gameSettings.jumps)
+            {
+                this.sound.play('sfx_jump');
+                this.player.setVelocityY(gameSettings.jumpForce*-1);
+                ++this.playerJumps;
             }
         }
 
@@ -120,24 +134,24 @@ class Play extends Phaser.Scene
         this.bg2.tilePositionX += 2;
         this.bg3.tilePositionX += 4;
         this.bg4.tilePositionX += 6;
-        this.startPlat.x -= 4;
+        this.startPlat.x -= 5;
         if (this.isCone1) {
-            this.cone1.x -= 4;
+            this.cone1.x -= 5;
         }
         if (this.isCone2) {
-            this.cone2.x -= 4;
+            this.cone2.x -= 5;
         }
         if (this.isCone3) {
-            this.cone3.x -= 4;
+            this.cone3.x -= 5;
         }
         if (this.isSam1) {
-            this.sam1.x -= 4;
+            this.sam1.x -= 5;
         }
         if (this.isSam2) {
-            this.sam2.x -= 4;
+            this.sam2.x -= 5;
         }
         if (this.isSam3) {
-            this.sam3.x -= 4;
+            this.sam3.x -= 5;
         }
         this.platform1.update();
         this.platform2.update();
