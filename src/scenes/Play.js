@@ -8,6 +8,8 @@ let gameSettings =
     playerStartPosition: 200,
 }
 
+
+
 class Play extends Phaser.Scene
 {
     constructor()
@@ -34,6 +36,7 @@ class Play extends Phaser.Scene
 
     create()
     {
+        let scene = this;
         //place tile sprites
         this.bg1 = this.add.tileSprite(0,0,640,480,'bg1').setOrigin(0,0);
         this.bg2 = this.add.tileSprite(0,0,640,480,'bg2').setOrigin(0,0);
@@ -82,8 +85,8 @@ class Play extends Phaser.Scene
         this.physics.add.collider(this.player, this.platform2);
         this.physics.add.collider(this.player, this.platform3);
 
-        //
-        this.physics.add.overlap(this.player, this.sams, this.collectSam);
+        //overlap
+        this.physics.add.overlap(this.player, this.sams, this.collectSam, null, this);
 
 
         //define keys
@@ -204,5 +207,6 @@ class Play extends Phaser.Scene
     collectSam(player, sam)
     {
         sam.disableBody(true, true);
+        this.sound.play('sfx_eat');
     }
 }
