@@ -168,7 +168,7 @@ class Play extends Phaser.Scene
             var chance = Phaser.Math.Between(0,4);
             if(chance == 0)
             {
-                this.cone1 = this.physics.add.sprite(this.platform1.x + Phaser.Math.Between(0, this.platform1.width - 40), this.platform1.y - 40, 'spike').setOrigin(0,0);
+                this.cone1 = this.physics.add.sprite(this.platform1.x + Phaser.Math.Between(0, this.platform1.width - 20), this.platform1.y - 20, 'spike').setOrigin(0,0);
                 this.isCone1 = true;
             }
         }
@@ -177,7 +177,7 @@ class Play extends Phaser.Scene
             var chance = Phaser.Math.Between(0,4);
             if(chance == 0)
             {
-                this.cone2 = this.physics.add.sprite(this.platform2.x + Phaser.Math.Between(0, this.platform2.width - 40), this.platform2.y - 40, 'spike').setOrigin(0,0);
+                this.cone2 = this.physics.add.sprite(this.platform2.x + Phaser.Math.Between(0, this.platform2.width - 20), this.platform2.y - 20, 'spike').setOrigin(0,0);
                 this.isCone2 = true;
             }
         }
@@ -186,7 +186,7 @@ class Play extends Phaser.Scene
             var chance = Phaser.Math.Between(0,4);
             if(chance == 0)
             {
-                this.cone3 = this.physics.add.sprite(this.platform3.x + Phaser.Math.Between(0, this.platform3.width - 40), this.platform3.y - 40, 'spike').setOrigin(0,0);
+                this.cone3 = this.physics.add.sprite(this.platform3.x + Phaser.Math.Between(0, this.platform3.width - 20), this.platform3.y - 20, 'spike').setOrigin(0,0);
                 this.isCone3 = true;
             }
         }
