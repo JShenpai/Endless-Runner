@@ -13,6 +13,7 @@ class Menu extends Phaser.Scene
         this.load.audio('sfx_jump','./assets/jump.wav');
         this.load.audio('sfx_select','./assets/select.wav');
         this.load.audio('sfx_superDash','./assets/superDash.wav');
+        this.load.image('mainMenu','./assets/mainMenu.jpg');
     }
 
     create()
@@ -20,6 +21,8 @@ class Menu extends Phaser.Scene
         this.add.text(20,20,"Endless Runner Menu");
 
         this.add.text(20,40,"Press SPACE to start");
+
+        this.add.tileSprite(0,0,640,480,'mainMenu').setOrigin(0,0);
         
         //define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);

@@ -5,12 +5,18 @@ class End extends Phaser.Scene
         super("endScene");
     }
 
+    preload()
+    {
+        this.load.image('gameOver','./assets/gameOver.jpg');
+    }
+
     init(data)
     {
         this.score = data.score;
     }
     create()
     {
+        this.add.tileSprite(0,0,640,480,'gameOver').setOrigin(0,0);
         this.add.text(20,20,"GAME OVER");
 
         this.add.text(20,40,"Press SPACE to restart");
