@@ -31,6 +31,9 @@ class Play extends Phaser.Scene
         this.load.image('platform1','./assets/platform_1.png');
         this.load.image('platform2','./assets/platform_2.png');
         this.load.image('platform3','./assets/platform_3.png');
+        this.load.image('dashicon','./assets/dashicon.png');
+        this.load.image('healthicon','./assets/healthicon.png');
+        this.load.image('timeicon','./assets/timeicon.png');
 
         this.load.spritesheet('player1','./assets/pajama_maniac.png',{frameWidth: 40, frameHeight: 40, startFrame: 0, endFrame: 7});
     }
@@ -64,12 +67,15 @@ class Play extends Phaser.Scene
         this.isSam2 = false;
         this.isSam3 = false;
 
-        //add avalanche
-        this.avalanche = this.add.tileSprite(-560,0,640,480,'avalanche').setOrigin(0,0);
-
         //add player
         this.player = this.physics.add.sprite(game.config.width/3, game.config.height/3*2-32,'player1').setOrigin(0,0);
         this.player.setGravityY(gameSettings.playerGravity);
+
+        // indicator bar
+        this.add.rectangle(0, game.config.height - 50, game.config.width, 50, 0x002B48).setOrigin(0, 0);
+
+        //add avalanche
+        this.avalanche = this.add.tileSprite(-560,0,640,480,'avalanche').setOrigin(0,0);
 
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0x000).setOrigin(0, 0);
@@ -110,6 +116,8 @@ class Play extends Phaser.Scene
         //keep track of player dashes
         this.playerDashes = 2;
 
+        this.totalSams = 0;
+
         //keep track of dash status
         this.isDashing = false;
 
@@ -118,6 +126,21 @@ class Play extends Phaser.Scene
         this.score = 0;
 
         this.timer = this.time.addEvent({ delay: 1000, callback: this.increaseScore, callbackScope: this, loop: true });
+
+        // display dashes
+        let indicateConfig = {
+            fontSize: '24px'
+        }
+        this.dashIndicate = this.add.tileSprite(game.config.width / 6 + 50,game.config.height - 45,30,30,'dashicon').setOrigin(0,0);
+        this.dashValue = this.add.text(game.config.width / 6 + 85, game.config.height - 35, this.playerDashes, indicateConfig);
+
+        // display health
+        this.healthIndicate = this.add.tileSprite(game.config.width / 6 + 200,game.config.height - 45,30,30,'healthicon').setOrigin(0,0);
+        this.healthValue = this.add.text(game.config.width / 6 + 235, game.config.height - 35, this.playerHealth, indicateConfig);
+
+        // display score
+        this.timeIndicate = this.add.tileSprite(game.config.width / 6 + 350,game.config.height - 45,30,30,'timeicon').setOrigin(0,0);
+        this.timeValue = this.add.text(game.config.width / 6 + 385, game.config.height - 35, this.score, indicateConfig);
     }
 
 
@@ -160,12 +183,13 @@ class Play extends Phaser.Scene
                 console.log(this.player.x);
             },null, this);
             --this.playerDashes;
+            this.dashValue.text = this.playerDashes;
         }
 
         if(this.player.y >= 580 || this.playerHealth == 0)
         {
             console.log(this.score);
-            this.scene.start('endScene', {score: this.score});
+            this.scene.start('endScene', {score: this.score, totalSams: this.totalSams});
         }
         this.bg2.tilePositionX += 2;
         this.bg3.tilePositionX += 4;
@@ -265,6 +289,8 @@ class Play extends Phaser.Scene
         sam.disableBody(true, true);
         this.sound.play('sfx_eat');
         this.playerDashes++;
+        this.dashValue.text = this.playerDashes;
+        this.totalSams++;
     }
 
     hurtPlayer(player, cone)
@@ -273,10 +299,13 @@ class Play extends Phaser.Scene
         this.playerHealth--;
         cone.disableBody(true, true);
         console.log(this.playerHealth);
+        this.healthValue.text = this.playerHealth;
+        this.avalanche.x += 25;
     }
 
     increaseScore()
     {
         this.score++; 
+        this.timeValue.text = this.score;
     }
 }

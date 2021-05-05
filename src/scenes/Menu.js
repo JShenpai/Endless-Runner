@@ -13,6 +13,7 @@ class Menu extends Phaser.Scene
         this.load.audio('sfx_jump','./assets/jump.wav');
         this.load.audio('sfx_select','./assets/select.wav');
         this.load.audio('sfx_superDash','./assets/superDash.wav');
+        this.load.audio('music','./assets/Music.wav');
         this.load.image('mainMenu','./assets/mainMenu.jpg');
     }
 
@@ -38,6 +39,17 @@ class Menu extends Phaser.Scene
         //define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
+        // play music
+        let musicConfig = {
+            loop: true,
+            volume: 0.5
+        }
+        game.sound.stopAll();
+        this.gameMusic = this.sound.add('music', musicConfig);
+        if (!this.gameMusic.isPlaying) {
+            this.gameMusic.play();
+        }
     }
 
     update()
